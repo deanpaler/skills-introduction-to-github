@@ -39,6 +39,8 @@ JOIN Invoice ON Customer.CustomerId = Invoice.CustomerId
 GROUP BY Customer.CustomerID, Customer.FirstName, Customer.LastName
 ORDER BY TotalSales DESC;
 
+USE hdh4ys;
+
 CREATE TABLE Clothing (
     ClothingId INT PRIMARY KEY AUTO_INCREMENT,
     Item VARCHAR(120) NOT NULL,
