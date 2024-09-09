@@ -1,0 +1,89 @@
+USE world;
+
+SELECT Name FROM country WHERE continent = 'South America';
+
+SELECT Population from country WHERE Name = 'Germany';
+
+SELECT Name FROM city WHERE CountryCode = 'JPN';
+
+SELECT Name
+FROM country
+WHERE continent = 'Africa'
+ORDER BY country.population DESC LIMIT 3;
+
+SELECT Name, LifeExpectancy
+FROM country
+WHERE country.population BETWEEN 1000000 and 5000000;
+
+SELECT country.Name FROM country
+JOIN countrylanguage ON country.Code = countrylanguage.CountryCode
+WHERE countrylanguage.Language = 'French' AND countrylanguage.IsOfficial = 'T';
+
+USE Chinook_AutoIncrement;
+
+SELECT Title FROM Album WHERE ArtistId = '1';
+
+SELECT FirstName, LastName, Email FROM Customer WHERE Country = 'Brazil';
+
+SELECT Name FROM Playlist;
+
+SELECT COUNT(TrackId) AS TotalTracks FROM Track 
+JOIN Genre ON Track.GenreId = Genre.GenreId
+WHERE Genre.Name = 'Rock';
+
+SELECT FirstName, LastName FROM Employee WHERE ReportsTo = (SELECT EmployeeId FROM Employee WHERE FirstName = 'Nancy' AND LastName = 'Edwards');
+
+SELECT Customer.CustomerId, Customer.FirstName, Customer.LastName, SUM(Invoice.Total) AS TotalSales
+FROM Customer
+JOIN Invoice ON Customer.CustomerId = Invoice.CustomerId
+GROUP BY Customer.CustomerID, Customer.FirstName, Customer.LastName
+ORDER BY TotalSales DESC;
+
+CREATE TABLE Clothing (
+    ClothingId INT PRIMARY KEY AUTO_INCREMENT,
+    Item VARCHAR(120) NOT NULL,
+    Price DECIMAL(10,2) NOT NULL
+);
+
+CREATE TABLE Customers (
+    CustomerId INT PRIMARY KEY AUTO_INCREMENT,
+    FirstName VARCHAR(120) NOT NULL,
+    LastName VARCHAR(120) NOT NULL,
+    Email VARCHAR(150) UNIQUE NOT NULL,
+    Address VARCHAR(300) NOT NULL
+);
+
+CREATE TABLE Orders (
+    OrderId INT PRIMARY KEY AUTO_INCREMENT,
+    ClothingId INT, CustomerId INT,
+    OrderDate DATE NOT NULL,
+    Quantity INT NOT NULL,
+    TotalAmount DECIMAL(10,2) NOT NULL
+);
+
+INSERT INTO Clothing (Item, Price) VALUES
+('Y2K South Pole Jorts', 29.99),
+('Polo Tee', 24.99),
+('Rocawear Jeans', 40.99),
+('Ecko Unltd. Belt', 12.10),
+('DC Shoes', 70.99);
+
+INSERT INTO Customers (FirstName, LastName, Email, Address) VALUES
+('Danella', 'Romera', 'danellaromera@gmail.com', '35 Pilgrim Lane'),
+('Ashley', 'Lohr', 'ashleylohr@gmail.com', '740 South Race Drive'),
+('Maddie', 'Miles', 'maddiemiles@gmail.com', '644 Helen Avenue'),
+('Vicky', 'Lin', 'vickylin@gmail.com', '67 Pulaski Street'),
+('Jacob', 'Wells', 'jacobwells@gmail.com', '58 West Woodman Street');
+
+INSERT INTO Orders (ClothingId, CustomerId, OrderDate, Quantity, TotalAmount) VALUES
+(1, 1, '2024-07-11', 1, 29.99),
+(2, 2, '2024-07-12', 1, 24.99),
+(3, 3, '2024-07-13', 1, 40.99),
+(4, 4, '2024-07-14', 1, 12.10),
+(5, 5, '2024-07-15', 1, 70.99);
+
+SELECT FirstName, LastName FROM Customers;
+
+SELECT Item FROM Clothing WHERE Clothing.Price BETWEEN 20 AND 60;
+
+SELECT COUNT(OrderId) AS TotalOrders FROM Orders;
